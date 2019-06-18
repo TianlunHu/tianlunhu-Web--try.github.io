@@ -41,23 +41,23 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <td>API used</td>
-                <td id="moApi"></td>
+                <td id="moApi">Sensors not available</td>
             </tr>
             <tr>
                 <td>linear acceleration (excl. gravity)</td>
-                <td id="moAccel"></td>
+                <td id="moAccel">No Accelermeter</td>
             </tr>
             <tr>
                 <td>acceleration incl. gravity</td>
-                <td id="moAccelGrav"></td>
+                <td id="moAccelGrav">No Accelermeter</td>
             </tr>
             <tr>
                 <td>rotation rate</td>
-                <td id="moRotation"></td>
+                <td id="moRotation">No Gyroscope</td>
             </tr>
             <tr>
                 <td>interval (ms)</td>
-                <td id="moInterval"></td>
+                <td id="moInterval">Infinity</td>
             </tr>
         </table>
         
@@ -67,11 +67,15 @@
         <p> Current Network Connection effective Type is <b id="effectiveNetworkType">not available</b>.</p>
         <p> Current max download speed is <b id="downlinkMax">not available</b>.</p>
         
+        <h1> WebSocket Connection ：<span>Data Send</span></h1>
+        <a id="Socket" href="javascript:runWebSocket()">Run WebSocket</a>
+        <p id="Data"></p>
+        <p id="Receive"></p>
     </div>
         
     <script type="text/javascript">
         if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
-            document.getElementById('moApi').innerHTML = 'Generic Sensor API';
+            document.getElementById('moApi').innerHTML = 'Motion Sensor';
 
             let lastReadingTimestamp;
             let accelerometer = new LinearAccelerationSensor();
@@ -132,12 +136,41 @@
             else{alert("NB")}
         }
     </script>
+        
+    <script type="text/javascript">
+        
+        function runWebSocket(){
+            if ("WebSocket" in window){
+                //alert("WebSocket is available");
+                var ws = new WebSocket("ws://localhost:9998/echo");
+                ws.onopen = function(){
+                    ws.send('Send Data');
+                    document.getElementById('Data').innerHTML = 'Sending Data';
+                };
+                
+                ws.onmessage = function(evt){
+                    var received_msg = evt.data;
+                    document.getElementById('Receive').innerHTML = 'Data Received';
+                };
+                
+                ws.onclose = function(){
+                    //document.getElementById('Socket').innerHTML = 'Connection closed';
+                    alert('Connection closed');
+                }
+                
+            }
+            
+            else {
+                document.getElementById('Socket').innerHTML = 'WebSocket is not available in your browser';
+            }
+        }
+        
+    </script>
+        
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
     <script src="getVideo.js"></script>
     <script src="Sensor.js"></script>
     <script src="Network.js"></script>
-
-    <!--<script src="../../../js/lib/ga.js"></script>-->
     
     </body>
 </html>
