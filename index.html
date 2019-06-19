@@ -141,7 +141,7 @@
         
         function runWebSocket(){
             if ("WebSocket" in window){
-                alert("WebSocket is available");
+                //alert("WebSocket is available");
                 var ws = new WebSocket("ws://localhost:9998/echo");
                 //var ws = new WebSocket("ws://10.210.49.28:9998/echo");
                 ws.onopen = function(){
@@ -155,7 +155,7 @@
                 };
                 
                 ws.onclose = function(){
-                    //document.getElementById('Socket').innerHTML = 'Connection closed';
+                    document.getElementById('Socket').innerHTML = 'Connection closed';
                     alert('Connection closed');
                 }
                 
