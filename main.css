@@ -41,8 +41,12 @@ button {
   color: white;
   font-family: 'Roboto', sans-serif;
   font-size: 0.8em;
-  margin: 0 0 1em 0;
-  padding: 0.5em 0.7em 0.6em 0.7em;
+  /*margin: 0 0 1em 0;
+  padding: 0.5em 0.7em 0.6em 0.7em;*/
+  margin: 0 3px 10px 0;
+  padding-left: 2px;
+  padding-right: 2px;
+  width: 99px;
 }
 
 button:active {
@@ -61,10 +65,20 @@ button[disabled]:hover {
   background-color: #d84a38;
 }
 
+button:last-of-type {
+  margin: 0;
+}
+
 canvas {
   background-color: #ccc;
-  max-width: 100%;
+  /*max-width: 100%;
   width: 45%;
+  */
+  margin: 0 0 20px 0;
+  --width: 45%;
+  width: var(--width);
+  height: calc(var(--width) * 0.75);
+  vertical-align: top;
 }
 
 code {
@@ -139,6 +153,7 @@ p#data {
 
 p.borderBelow {
   border-bottom: 1px solid #aaa;
+  margin: 0 0 20px 0;
   padding: 0 0 20px 0;
 }
 
@@ -229,6 +244,14 @@ video {
 
 video#localVideo {
     margin: 0 20px 20px 0;
+}
+
+video:last-of-type {
+  margin: 0 0 20px 0;
+}
+
+video#gumVideo {
+  margin: 0 20px 20px 0;
 }
 
 ul {

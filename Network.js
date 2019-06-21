@@ -14,3 +14,30 @@ if (info) {
     info.addEventListener('change', updateNetworkInfo);
     updateNetworkInfo(info);
 }
+
+function runWebSocket(){
+    if ("WebSocket" in window){
+        //alert("WebSocket is available");
+        var ws = new WebSocket("ws://localhost:9998/echo");
+        //var ws = new WebSocket("ws://10.210.49.28:9998/echo");
+        ws.onopen = function(){
+            ws.send('Send Data');
+            document.getElementById('Data').innerHTML = 'Sending Data';
+        };
+
+        ws.onmessage = function(evt){
+            var received_msg = evt.data;
+            document.getElementById('Receive').innerHTML = 'Data Received';
+        };
+
+        ws.onclose = function(){
+            //document.getElementById('Socket').innerHTML = 'Connection closed';
+            alert('Connection closed');
+        }
+
+    }
+
+    else {
+        document.getElementById('Socket').innerHTML = 'WebSocket is not available in your browser';
+    }
+}
