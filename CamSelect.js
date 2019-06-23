@@ -25,7 +25,7 @@ function gotDevices(deviceInfos) {
       option.text = deviceInfo.label || `camera ${videoSelect.length + 1}`;
       videoSelect.appendChild(option);
     } else {
-      console.log('Some other kind of source/device: ', deviceInfo);
+      //console.log('Some other kind of source/device: ', deviceInfo);
     }
   }
   selectors.forEach((select, selectorIndex) => {
