@@ -18,8 +18,8 @@ if (info) {
 function runWebSocket(){
     if ("WebSocket" in window){
         //alert("WebSocket is available");
-        //var ws = new WebSocket("ws://localhost:9998/echo");
-        var ws = new WebSocket("ws://192.168.2.107:9998/echo");
+        var ws = new WebSocket("ws://localhost:9998/echo");
+        //var ws = new WebSocket("ws://192.168.2.107:9998/echo");
         ws.onopen = function(){
             ws.send('Send Data');
             document.getElementById('Data').innerHTML = 'Sending Data';
