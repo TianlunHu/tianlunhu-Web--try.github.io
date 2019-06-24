@@ -111,7 +111,7 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <td>API used</td>
-                <td id="moApi">Sensors not available</td>
+                <td id="moApi">Sensors not detected</td>
             </tr>
             <tr>
                 <td>linear acceleration (excl. gravity)</td>
@@ -119,7 +119,7 @@
             </tr>
             <tr>
                 <td>acceleration incl. gravity</td>
-                <td id="moAccelGrav">No Accelermeter</td>
+                <td id="moAccelGrav">No Acc-meter with G</td>
             </tr>
             <tr>
                 <td>rotation rate</td>
@@ -130,7 +130,7 @@
                 <td id="moInterval">Infinity</td>
             </tr>
         </table>
-        
+        <input type="button" id="export" value="output"/>
         <br />
         <h1> Sensor Data Collection : <span>Network State</span></h1>
         <p> Current Network Connection Type is <b id="networkType">not available</b>.</p>
@@ -142,8 +142,9 @@
         <p id="Data"></p>
         <p id="Receive"></p>
     </div>
-        
+    
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+    <!--<script type="text/javascript" src="./JS/FileSaver.js" charset="utf-8"></script>-->
     <script src="getVideo.js"></script>
     <script src="Sensor.js"></script>
     <script src="Network.js"></script>
