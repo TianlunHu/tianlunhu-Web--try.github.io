@@ -30,41 +30,42 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
     document.getElementById('moApi').innerHTML = 'Motion Sensor detected';
     let lastReadingTimestamp;
     let accelerometer = new LinearAccelerationSensor();
-    /*accelerometer.addEventListener('reading', e => {
+    
+    accelerometer.addEventListener('reading', e => {
     if (lastReadingTimestamp) {
         intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
     }
     lastReadingTimestamp = accelerometer.timestamp;
     accelerationHandler(accelerometer, 'moAccel');
-    });*/
+    });
     
-    if (lastReadingTimestamp) {
+    /*if (lastReadingTimestamp) {
         intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
     }
     else{
         lastReadingTimestamp = accelerometer.timestamp;
     }
-    accelerationHandler(accelerometer, 'moAccel');
+    accelerationHandler(accelerometer, 'moAccel');*/
     accelerometer.start();
 
     if ('GravitySensor' in window) {
         let gravity = new GravitySensor();
-        //gravity.addEventListener('reading', e => accelerationHandler(gravity, 'moAccelGrav'));
-        accelerationHandler(gravity, 'moAccelGrav');
+        gravity.addEventListener('reading', e => accelerationHandler(gravity, 'moAccelGrav'));
+        //accelerationHandler(gravity, 'moAccelGrav');
         gravity.start();
     }
 
     let gyroscope = new Gyroscope();
-    /*gyroscope.addEventListener('reading', e => rotationHandler({
+    gyroscope.addEventListener('reading', e => rotationHandler({
     alpha: gyroscope.x,
     beta: gyroscope.y,
     gamma: gyroscope.z
-    }));*/
-    rotationHandler({
+    }));
+    /*rotationHandler({
           alpha: gyroscope.x,
           beta: gyroscope.y,
           gamma: gyroscope.z
-    });
+    });*/
     gyroscope.start();
 
 }
