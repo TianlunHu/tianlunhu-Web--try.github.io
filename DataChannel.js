@@ -16,6 +16,8 @@ startButton.onclick = createConnection;
 sendButton.onclick = sendData;
 closeButton.onclick = closeDataChannels;
 
+const configuration = {iceServers: [{url:'stun:stun.l.google.com:19302'}]};
+
 function enableStartButton() {
   startButton.disabled = false;
 }
@@ -34,7 +36,7 @@ function createConnection() {
   // Add localConnection to global scope to make it visible
   // from the browser console.
   window.localConnection = localConnection =
-      new RTCPeerConnection(servers, pcConstraint);
+      new RTCPeerConnection(configuration);
   trace('Created local peer connection object localConnection');
 
   sendChannel = localConnection.createDataChannel('sendDataChannel',
@@ -48,7 +50,7 @@ function createConnection() {
   // Add remoteConnection to global scope to make it visible
   // from the browser console.
   window.remoteConnection = remoteConnection =
-      new RTCPeerConnection(servers, pcConstraint);
+      new RTCPeerConnection(configuration);
   trace('Created remote peer connection object remoteConnection');
 
   remoteConnection.onicecandidate = iceCallback2;
