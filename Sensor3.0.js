@@ -2,7 +2,6 @@
 var TimeStamp = new Array();
 var AccVec = [];
 var rotVec = [];
-var VecSeq = [];
 
 //----------------- Motion Sensors -------------- //
 
@@ -40,7 +39,6 @@ function rotationHandler(rotation, RV, t) {
     info = info.replace("Y", rotation.beta && rotation.beta.toFixed(3));
     info = info.replace("Z", rotation.gamma && rotation.gamma.toFixed(3));
     document.getElementById("moRotation").innerHTML = info;
-    document.getElementById("timeStamp").innerHTML = t;
     RV.push(info);
     document.getElementById('RotSequence').innerHTML = RV;
 }
@@ -59,13 +57,17 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
         frequency: 30
     });
     
-    document.addEventListener('load', e => {var TimeStamp = Date.now() / 1000});
+    /*document.addEventListener('load', e => {
+        
+    });*/
     
     accelerometer.addEventListener('reading', e => {
         if (lastReadingTimestamp) {
             intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
         }
         lastReadingTimestamp = accelerometer.timestamp;
+        var TimeStamp = Date.now() / 1000;
+        document.getElementById("timeStamp").innerHTML = TimeStamp;
         accelerationHandler(accelerometer, AccVec, TimeStamp);
     });
 
