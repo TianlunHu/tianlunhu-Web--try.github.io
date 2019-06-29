@@ -22,12 +22,11 @@ function rotationHandler(rotation, RV, t) {
     info = info.replace("Y", rotation.beta && rotation.beta.toFixed(3));
     info = info.replace("Z", rotation.gamma && rotation.gamma.toFixed(3));
     document.getElementById("moRotation").innerHTML = info;
-    document.getElementById("timeStamp").innerHTML = t
     RV.push(info);
     document.getElementById('RotSequence').innerHTML = RV;
 }
 
-function intervalHandler() {
+function intervalHandler(interval) {
     document.getElementById("moInterval").innerHTML = interval;
 }
 
@@ -40,29 +39,30 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
     let gyroscope = new Gyroscope({
         frequency: 30
     });
-    
+
     /*document.addEventListener('load', e => {
         
     });*/
-    
+
     accelerometer.addEventListener('reading', e => {
         if (lastReadingTimestamp) {
             intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
         }
         lastReadingTimestamp = accelerometer.timestamp;
-        
-        accelerationHandler(accelerometer, AccVec, Date.now());
+
+        document.getElementById("timeStamp").innerHTML = accelerometer.timestamp;
+        accelerationHandler(accelerometer, AccVec, accelerometer.timestamp);
     });
 
     gyroscope.addEventListener('reading', e => rotationHandler({
-        alpha: gyroscope.x, beta: gyroscope.y, gamma: gyroscope.z
+        alpha: gyroscope.x,
+        beta: gyroscope.y,
+        gamma: gyroscope.z
     }, rotVec, gyroscope.timestamp));
-    
-    accelerometer.start();
-    gyroscope.start();  
-} 
 
-else if ('DeviceMotionEvent' in window) {
+    accelerometer.start();
+    gyroscope.start();
+} else if ('DeviceMotionEvent' in window) {
     document.getElementById('moApi').innerHTML = 'Device Motion Event';
 
     var onDeviceMotion = function (eventData) {
