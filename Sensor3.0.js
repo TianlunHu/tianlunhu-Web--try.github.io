@@ -4,22 +4,6 @@ var rotVec = [];
 
 //----------------- Motion Sensors -------------- //
 
-/*function Handler(acceleration, rotation, VS, t) {
-    var info, vec = "[t, X, Y, Z, a, b, g]";
-    info = vec.replace("t", t);
-    info = info.replace("X", acceleration.x && acceleration.x.toFixed(3));
-    info = info.replace("Y", acceleration.y && acceleration.y.toFixed(3));
-    info = info.replace("Z", acceleration.z && acceleration.z.toFixed(3));
-    info = info.replace("a", rotation.alpha && rotation.alpha.toFixed(3));
-    info = info.replace("b", rotation.beta && rotation.beta.toFixed(3));
-    info = info.replace("g", rotation.gamma && rotation.gamma.toFixed(3));
-    document.getElementById("timeStamp").innerHTML = t;
-    document.getElementById('moAccel').innerHTML = info;
-    document.getElementById("moRotation").innerHTML = info;
-    VS.push(info);
-    document.getElementById('RotSequence').innerHTML = VS;
-}*/
-
 function accelerationHandler(acceleration, AV, t) {
     var info, xyz = "[t, X, Y, Z]";
     info = xyz.replace("t", t);
@@ -55,28 +39,34 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
     let gyroscope = new Gyroscope({
         frequency: 30
     });
-    
+
     /*document.addEventListener('load', e => {
         
     });*/
-    
+
     accelerometer.addEventListener('reading', e => {
-        if (lastReadingTimestamp) {
-            intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
-        }
-        lastReadingTimestamp = accelerometer.timestamp;
-        var timestamp = Date.now() / 1000;
-        document.getElementById("timeStamp").innerHTML = timetamp;
-        accelerationHandler(accelerometer, AccVec, timestamp);
+            if (lastReadingTimestamp) {
+                intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
+            }
+            lastReadingTimestamp = accelerometer.timestamp;
+            document.getElementById("timeStamp").innerHTML = Date.now() / 1000;
+            accelerationHandler(accelerometer, AccVec, Date.now() / 1000);
+            rotationHandler({
+                alpha: gyroscope.x,
+                beta: gyroscope.y,
+                gamma: gyroscope.z
+            }, rotVec, Date.now() / 1000);
     });
 
-    gyroscope.addEventListener('reading', e => rotationHandler({
-        alpha: gyroscope.x, beta: gyroscope.y, gamma: gyroscope.z
-    }, rotVec, timestamp));
-    
-    accelerometer.start();
-    gyroscope.start();  
-} 
+/*gyroscope.addEventListener('reading', e => rotationHandler({
+    alpha: gyroscope.x,
+    beta: gyroscope.y,
+    gamma: gyroscope.z
+}, rotVec, Date.now() / 1000));*/
+
+accelerometer.start();
+gyroscope.start();
+}
 
 else if ('DeviceMotionEvent' in window) {
     document.getElementById('moApi').innerHTML = 'Device Motion Event';
