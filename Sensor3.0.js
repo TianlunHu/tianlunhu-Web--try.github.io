@@ -51,7 +51,7 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
         }
         lastReadingTimestamp = accelerometer.timestamp;
         
-        accelerationHandler(accelerometer, AccVec, accelerometer.timestamp);
+        accelerationHandler(accelerometer, AccVec, Date.now());
     });
 
     gyroscope.addEventListener('reading', e => rotationHandler({
