@@ -2,7 +2,7 @@
 //----------------- Motion Sensors -------------- //
 var TimeStamp = new Array();
 var AccVec = new Array();
-var rotVec = new Array();
+var rotVec = [];
 
 function accelerationHandler(acceleration, targetId) {
   var info, xyz = "[X, Y, Z]";
@@ -10,19 +10,20 @@ function accelerationHandler(acceleration, targetId) {
   info = info.replace("Y", acceleration.y && acceleration.y.toFixed(3));
   info = info.replace("Z", acceleration.z && acceleration.z.toFixed(3));
   document.getElementById(targetId).innerHTML = info;
-  rotVec.push(info);
 }
 
 function test(){
     console.log("I'm executed");
 }
 
-function rotationHandler(rotation) {
+function rotationHandler(rotation, RV) {
   var info, xyz = "[X, Y, Z]";
   info = xyz.replace("X", rotation.alpha && rotation.alpha.toFixed(3));
   info = info.replace("Y", rotation.beta && rotation.beta.toFixed(3));
   info = info.replace("Z", rotation.gamma && rotation.gamma.toFixed(3));
   document.getElementById("moRotation").innerHTML = info;
+  RV.push(info);
+  document.getElementById('RotSequence').innerHTML = RV;
 }
 
 function intervalHandler(interval) {
@@ -70,12 +71,12 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
         gravity.start();
     }
 
-    let gyroscope = new Gyroscope({frequency: 30});
+    let gyroscope = new Gyroscope();
     gyroscope.addEventListener('reading', e => rotationHandler({
     alpha: gyroscope.x,
     beta: gyroscope.y,
     gamma: gyroscope.z
-    }));
+    },rotVec));
     //gyroscope.addEventListener('reading', e => rotVec.push())
     gyroscope.start();
 }
@@ -98,5 +99,3 @@ else {
     document.getElementById("moRotation").innerHTML = '[x,y,z]';
 }
 
-
-document.getElementById('RotSequence').innerHTML = rotVec;
