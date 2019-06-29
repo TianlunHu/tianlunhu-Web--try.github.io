@@ -1,6 +1,8 @@
 'use strict';
 //----------------- Motion Sensors -------------- //
-var rotV = new Array();
+var TimeStamp = new Array();
+var AccVec = new Array();
+var rotVec = new Array();
 
 function accelerationHandler(acceleration, targetId) {
   var info, xyz = "[X, Y, Z]";
@@ -8,6 +10,7 @@ function accelerationHandler(acceleration, targetId) {
   info = info.replace("Y", acceleration.y && acceleration.y.toFixed(3));
   info = info.replace("Z", acceleration.z && acceleration.z.toFixed(3));
   document.getElementById(targetId).innerHTML = info;
+  rotVec.push(info);
 }
 
 function test(){
@@ -16,27 +19,15 @@ function test(){
 
 function rotationHandler(rotation) {
   var info, xyz = "[X, Y, Z]";
-
   info = xyz.replace("X", rotation.alpha && rotation.alpha.toFixed(3));
   info = info.replace("Y", rotation.beta && rotation.beta.toFixed(3));
   info = info.replace("Z", rotation.gamma && rotation.gamma.toFixed(3));
   document.getElementById("moRotation").innerHTML = info;
-  rotV.push(info);
 }
-
-console.log('Rotation Vevctor'+rotV);
-
-
-
-
 
 function intervalHandler(interval) {
   document.getElementById("moInterval").innerHTML = interval;
 }
-
-var TimeStamp = new Array();
-var AccVec = new Array();
-var xyz = new Array(3);
 
 if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
     document.getElementById('moApi').innerHTML = 'Motion Sensor detected';
@@ -79,17 +70,13 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
         gravity.start();
     }
 
-    let gyroscope = new Gyroscope();
+    let gyroscope = new Gyroscope({frequency: 30});
     gyroscope.addEventListener('reading', e => rotationHandler({
     alpha: gyroscope.x,
     beta: gyroscope.y,
     gamma: gyroscope.z
     }));
-    /*rotationHandler({
-          alpha: gyroscope.x,
-          beta: gyroscope.y,
-          gamma: gyroscope.z
-    });*/
+    //gyroscope.addEventListener('reading', e => rotVec.push())
     gyroscope.start();
 }
 
@@ -108,4 +95,8 @@ else if ('DeviceMotionEvent' in window) {
 
 else {
     document.getElementById('moApi').innerHTML = 'No Sensors API available';
+    document.getElementById("moRotation").innerHTML = '[x,y,z]';
 }
+
+
+document.getElementById('RotSequence').innerHTML = rotVec;
