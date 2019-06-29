@@ -72,7 +72,7 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
 
     gyroscope.addEventListener('reading', e => rotationHandler({
         alpha: gyroscope.x, beta: gyroscope.y, gamma: gyroscope.z
-    }, rotVec, TimeStamp));
+    }, rotVec, timestamp));
     
     accelerometer.start();
     gyroscope.start();  
