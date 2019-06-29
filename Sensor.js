@@ -16,14 +16,17 @@ function test(){
     console.log("I'm executed");
 }
 
-function rotationHandler(rotation, RV) {
-  var info, xyz = "[X, Y, Z]";
-  info = xyz.replace("X", rotation.alpha && rotation.alpha.toFixed(3));
+function rotationHandler(rotation, RV, t) {
+  var info, xyz = "[t, X, Y, Z]";
+  info = xyz.replace("t", t);
+  info = info.replace("X", rotation.alpha && rotation.alpha.toFixed(3));
   info = info.replace("Y", rotation.beta && rotation.beta.toFixed(3));
   info = info.replace("Z", rotation.gamma && rotation.gamma.toFixed(3));
-  document.getElementById("moRotation").innerHTML = info;
+  document.getElementById("moRotation").innerHTML = [info[1],info[2],info[3]];
+  document.getElementById("timeStamp").innerHTML = t;
   RV.push(info);
   document.getElementById('RotSequence').innerHTML = RV;
+  
 }
 
 function intervalHandler(interval) {
@@ -76,7 +79,7 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
     alpha: gyroscope.x,
     beta: gyroscope.y,
     gamma: gyroscope.z
-    },rotVec));
+    },rotVec,Date.now()/1000));
     //gyroscope.addEventListener('reading', e => rotVec.push())
     gyroscope.start();
 }
@@ -98,4 +101,3 @@ else {
     document.getElementById('moApi').innerHTML = 'No Sensors API available';
     document.getElementById("moRotation").innerHTML = '[x,y,z]';
 }
-
