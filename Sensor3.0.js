@@ -39,34 +39,27 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
     let gyroscope = new Gyroscope({
         frequency: 30
     });
-
+    
     /*document.addEventListener('load', e => {
         
     });*/
-
+    
     accelerometer.addEventListener('reading', e => {
-            if (lastReadingTimestamp) {
-                intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
-            }
-            lastReadingTimestamp = accelerometer.timestamp;
-            document.getElementById("timeStamp").innerHTML = Date.now() / 1000;
-            accelerationHandler(accelerometer, AccVec, Date.now() / 1000);
-            rotationHandler({
-                alpha: gyroscope.x,
-                beta: gyroscope.y,
-                gamma: gyroscope.z
-            }, rotVec, Date.now() / 1000);
+        if (lastReadingTimestamp) {
+            intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
+        }
+        lastReadingTimestamp = accelerometer.timestamp;
+        document.getElementById("timeStamp").innerHTML = Date.now() / 1000;
+        accelerationHandler(accelerometer, AccVec, accelerometer.timestamp);
     });
 
-/*gyroscope.addEventListener('reading', e => rotationHandler({
-    alpha: gyroscope.x,
-    beta: gyroscope.y,
-    gamma: gyroscope.z
-}, rotVec, Date.now() / 1000));*/
-
-accelerometer.start();
-gyroscope.start();
-}
+    gyroscope.addEventListener('reading', e => rotationHandler({
+        alpha: gyroscope.x, beta: gyroscope.y, gamma: gyroscope.z
+    }, rotVec, gyroscope.timestamp));
+    
+    accelerometer.start();
+    gyroscope.start();  
+} 
 
 else if ('DeviceMotionEvent' in window) {
     document.getElementById('moApi').innerHTML = 'Device Motion Event';
