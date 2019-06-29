@@ -1,5 +1,4 @@
 'use strict';
-var TimeStamp = new Array();
 var AccVec = [];
 var rotVec = [];
 
