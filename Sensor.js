@@ -1,5 +1,6 @@
 'use strict';
 //----------------- Motion Sensors -------------- //
+var rotV = new Array();
 
 function accelerationHandler(acceleration, targetId) {
   var info, xyz = "[X, Y, Z]";
@@ -20,16 +21,27 @@ function rotationHandler(rotation) {
   info = info.replace("Y", rotation.beta && rotation.beta.toFixed(3));
   info = info.replace("Z", rotation.gamma && rotation.gamma.toFixed(3));
   document.getElementById("moRotation").innerHTML = info;
+  rotV.push(info);
 }
+
+console.log('Rotation Vevctor'+rotV);
+
+
+
+
 
 function intervalHandler(interval) {
   document.getElementById("moInterval").innerHTML = interval;
 }
 
+var TimeStamp = new Array();
+var AccVec = new Array();
+var xyz = new Array(3);
+
 if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
     document.getElementById('moApi').innerHTML = 'Motion Sensor detected';
     let lastReadingTimestamp;
-    let accelerometer = new LinearAccelerationSensor();
+    let accelerometer = new LinearAccelerationSensor({frequency: 30});
     
     accelerometer.addEventListener('reading', e => {
     if (lastReadingTimestamp) {
@@ -37,8 +49,19 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
     }
     lastReadingTimestamp = accelerometer.timestamp;
     accelerationHandler(accelerometer, 'moAccel');
-    });
+    xyz[0] = accelerometer.x.toFixed(3);
+    xyz[1] = accelerometer.y.toFixed(3);
+    xyz[2] = accelerometer.z.toFixed(3);
+    AccVec.concat(xyz);
+    TimeStamp.concat(accelerometer.timestamp);
+    console.log("Acceleration along the X-axis " + accelerometer.x);
+    console.log("Acceleration along the Y-axis " + accelerometer.y);
+    console.log("Acceleration along the Z-axis " + accelerometer.z);
     
+    console.log("here we are: " + TimeStamp + " >> "+ AccVec);
+    test();
+    });
+    //test();
     /*if (lastReadingTimestamp) {
         intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
     }
@@ -46,6 +69,7 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
         lastReadingTimestamp = accelerometer.timestamp;
     }
     accelerationHandler(accelerometer, 'moAccel');*/
+    
     accelerometer.start();
 
     if ('GravitySensor' in window) {
@@ -67,7 +91,6 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
           gamma: gyroscope.z
     });*/
     gyroscope.start();
-
 }
 
 else if ('DeviceMotionEvent' in window) {
