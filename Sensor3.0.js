@@ -22,6 +22,7 @@ function rotationHandler(rotation, RV, t) {
     info = info.replace("Y", rotation.beta && rotation.beta.toFixed(3));
     info = info.replace("Z", rotation.gamma && rotation.gamma.toFixed(3));
     document.getElementById("moRotation").innerHTML = info;
+    document.getElementById("timeStamp").innerHTML = t
     RV.push(info);
     document.getElementById('RotSequence').innerHTML = RV;
 }
@@ -49,7 +50,7 @@ if ('LinearAccelerationSensor' in window && 'Gyroscope' in window) {
             intervalHandler(Math.round(accelerometer.timestamp - lastReadingTimestamp));
         }
         lastReadingTimestamp = accelerometer.timestamp;
-        document.getElementById("timeStamp").innerHTML = Date.now() / 1000;
+        
         accelerationHandler(accelerometer, AccVec, accelerometer.timestamp);
     });
 
