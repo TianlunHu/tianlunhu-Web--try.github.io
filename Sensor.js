@@ -22,7 +22,7 @@ function rotationHandler(rotation, RV, t) {
   info = info.replace("X", rotation.alpha && rotation.alpha.toFixed(3));
   info = info.replace("Y", rotation.beta && rotation.beta.toFixed(3));
   info = info.replace("Z", rotation.gamma && rotation.gamma.toFixed(3));
-  document.getElementById("moRotation").innerHTML = [info[1],info[2],info[3]];
+  document.getElementById("moRotation").innerHTML = info.slice(1,4);
   document.getElementById("timeStamp").innerHTML = t;
   RV.push(info);
   document.getElementById('RotSequence').innerHTML = RV;
