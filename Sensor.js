@@ -9,7 +9,7 @@ function deviceOrientationHandler (eventData) {
   var tiltLR = eventData.gamma;
   var tiltFB = eventData.beta;
   var dir = eventData.alpha;
-  var Q = eventData.quaternion;
+  var Q = fromArray(eventData.quaternion).inverse();
   
   document.getElementById("doTiltLR").innerHTML = Math.round(tiltLR);
   document.getElementById("doTiltFB").innerHTML = Math.round(tiltFB);
