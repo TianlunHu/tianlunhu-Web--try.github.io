@@ -160,6 +160,10 @@
                 <td>Direction [alpha]</td>
                 <td id="doDirection"></td>
             </tr>
+            <tr>
+                <td>Pose Quaternion</td>
+                <td id="doQ"></td>
+            </tr>
         </table>
         <div class="container" id="logoContainer">
             <img src="https://www.w3.org/html/logo/downloads/HTML5_Badge_512.png" id="imgLogo">
@@ -188,23 +192,6 @@
     <script src="SaveStream.js"></script>
     <script src="CamSelect.js"></script>
     <script src="DataChannel.js"></script>
-    <script>
-        //var socket = io();
-        $(function() {
-            var socket = io();
-            $('form').submit(function(e) {
-                e.preventDefault(); // prevents page reloading
-                socket.emit('chat message', $('#m').val());
-                $('#m').val('');
-                return false;
-            });
-
-            socket.on('chat message', function(msg) {
-                $('#messages').append($('<li>').text(msg));
-            });
-        });
-
-    </script>
 
 </body>
 
