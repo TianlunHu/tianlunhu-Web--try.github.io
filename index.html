@@ -74,6 +74,24 @@
 <body>
 
     <div id="container">
+        <h1> Data Channel Test</h1>
+
+        <textarea id="dataChannelSend" disabled placeholder="Press Start, enter some text, then press Send."></textarea>
+        <textarea id="dataChannelReceive" disabled></textarea>
+
+        <div id="buttons">
+            <button id="startButton">Start</button>
+            <button id="sendButton">Send</button>
+            <button id="closeButton">Stop</button>
+        </div>
+
+        <h1> P2P Communication : <span>Data Stream</span></h1>
+
+        <ul id="messages"></ul>
+        <form action="">
+            <input id="m" autocomplete="off" /><button>Send</button>
+        </form>
+
         <h1> Sensor Data Collection : <span>Video Capture</span></h1>
 
         <h2> Take Frame and Record Video with Button </h2>
@@ -102,6 +120,7 @@
         <button id="record" disabled>Start Recording</button>
         <button id="play" disabled>Play</button>
         <button id="download" disabled>Download</button>
+
         <p>Echo cancellation: <input type="checkbox" id="echoCancellation"></p>
         <span id="errorMsg"></span>
         <br />
@@ -111,11 +130,7 @@
         <table class="table table-striped table-bordered">
             <tr>
                 <td>API used</td>
-                <td id="moApi">Sensors not detected</td>
-            </tr>
-            <tr>
-                <td>TimeStamp in ms</td>
-                <td id="timeStamp">Current Time</td>
+                <td id="moApi">Sensors not available</td>
             </tr>
             <tr>
                 <td>linear acceleration (excl. gravity)</td>
@@ -123,7 +138,7 @@
             </tr>
             <tr>
                 <td>acceleration incl. gravity</td>
-                <td id="moAccelGrav">No Acc-meter with G</td>
+                <td id="moAccelGrav">No Accelermeter</td>
             </tr>
             <tr>
                 <td>rotation rate</td>
@@ -133,13 +148,24 @@
                 <td>interval (ms)</td>
                 <td id="moInterval">Infinity</td>
             </tr>
+            <tr>
+                <td>Tilt Left/Right [gamma]</td>
+                <td id="doTiltLR"></td>
+            </tr>
+            <tr>
+                <td>Tilt Front/Back [beta]</td>
+                <td id="doTiltFB"></td>
+            </tr>
+            <tr>
+                <td>Direction [alpha]</td>
+                <td id="doDirection"></td>
+            </tr>
         </table>
+        <div class="container" id="logoContainer">
+            <img src="https://www.w3.org/html/logo/downloads/HTML5_Badge_512.png" id="imgLogo">
+        </div>
+
         <input type="button" id="export" value="output" />
-        
-        <p id="RotSequence">I'm Here</p>
-        <br />
-        <p id="AccSequence">I'm Here too</p>
-        
         <br />
         <h1> Sensor Data Collection : <span>Network State</span></h1>
         <p> Current Network Connection Type is <b id="networkType">not available</b>.</p>
@@ -153,22 +179,33 @@
     </div>
 
     <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
-
-    <!--<script type="text/javascript" src="./JS/FileSaver.js" charset="utf-8"></script>-->
+    <script type="text/javascript" src="./JS/FileSaver.js" charset="utf-8"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <script src="getVideo.js"></script>
-    <script src="Sensor3.0.js"></script>
+    <script src="Sensor.js"></script>
     <script src="Network.js"></script>
     <script src="SaveStream.js"></script>
     <script src="CamSelect.js"></script>
+    <script src="DataChannel.js"></script>
+    <script>
+        //var socket = io();
+        $(function() {
+            var socket = io();
+            $('form').submit(function(e) {
+                e.preventDefault(); // prevents page reloading
+                socket.emit('chat message', $('#m').val());
+                $('#m').val('');
+                return false;
+            });
 
-    <script src="FileSaver.js"></script>
-    <script type="text/javascript">
-        var blob = new Blob(["Hello, world!"], {
-            type: "text/plain;charset=utf-8"
+            socket.on('chat message', function(msg) {
+                $('#messages').append($('<li>').text(msg));
+            });
         });
-        //saveAs(blob, "hello world.txt");
 
     </script>
+
 </body>
 
 </html>
